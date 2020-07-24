@@ -12,9 +12,7 @@ const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('
 
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
-    if (command.name != 'game-status') {
-        client.commands.set(command.name, command);
-    }
+    client.commands.set(command.name, command);
 }
 
 const cooldowns = new Discord.Collection();
