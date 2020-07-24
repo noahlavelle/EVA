@@ -6,5 +6,6 @@ module.exports = {
         modules.exports.game_playing = 'false'
         modules.exports.player_one = 'false'
         modules.exports.player_two = 'false'
-    }
+    },
+    name: 'game-status'
 }

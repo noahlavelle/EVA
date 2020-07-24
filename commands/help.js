@@ -1,4 +1,5 @@
 const { prefix } = require('../config.json');
+const Discord = require('discord.js')
 
 module.exports = {
     name: 'help',
@@ -10,11 +11,21 @@ module.exports = {
         const { commands } = message.client;
 
         if (!args.length) {
-            data.push('Here\'s a list of all my commands:');
             data.push(commands.map(command => command.name).join(', '));
-            data.push(`\nYou can send \`${prefix}help [command name]\` to get info on a specific command!`);
 
-            return message.author.send(data, { split: true })
+            const embedHelp = new Discord.MessageEmbed()
+                .setTitle('EVA Help Menu')
+                .setAuthor('EVA Bot', 'https://i.imgur.com/krP0yd8.jpg')
+                .setColor('#00ff00')
+                .setThumbnail('https://i.imgur.com/krP0yd8.jpg')
+                .setFooter(`Requested by ${message.author.username}`)
+                .setTimestamp()
+                .addFields(
+                    { name: 'Here\'s a list of all my commands:', value: data},
+                    { name: 'Command specific help:', value: 'You can send .help [command name] to get info on a specific command!' }
+                )
+
+            return message.author.send(embedHelp)
                 .then(() => {
                     if (message.channel.type === 'dm') return;
                     message.reply('I\'ve sent you a DM with all my commands!');
@@ -32,15 +43,16 @@ module.exports = {
             return message.reply('that\'s not a valid command!')
         }
 
-        data.push(`**Name:** ${command.name}`);
+        const embedCommand = new Discord.MessageEmbed()
+            .setTitle(`EVA Command Help: ${args[0]}`)
+            .setAuthor('EVA Bot', 'https://i.imgur.com/krP0yd8.jpg')
+            .setColor('#00ff00')
+            .setThumbnail('https://i.imgur.com/krP0yd8.jpg')
+            .setFooter(`Requested by ${message.author.username}`)
+            .setTimestamp()
+            .setDescription(`**Aliases:** ${command.aliases.join(', ')}\n**Description:** ${command.description}\n**Usage:** ${prefix}${command.name} ${command.usage}\n**Cooldown:** ${command.cooldown || 3} second(s)`)
 
-        if (command.aliases) data.push(`**Aliases:** ${command.aliases.join(', ')}`);
-        if (command.description) data.push(`**Description:** ${command.description}`);
-        if (command.usage) data.push(`**Usage:** ${prefix}${command.name} ${command.usage}`);
-
-        data.push(`**Cooldown:** ${command.cooldown || 3} second(s)`);
-
-        message.channel.send(data, { split: true });
+        message.channel.send(embedCommand);
 
     },
 }

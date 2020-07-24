@@ -8,10 +8,5 @@ module.exports = {
     aliases: ['play'],
     guildOnly: true,
 	execute(message, args, client) {
-        switch args[2] {
-            case 'rps':
-                game_status
-                break;
-        }
 	},
 };
