@@ -6,7 +6,7 @@ module.exports = {
     aliases: ['addrank'],
     guildOnly: true,
 	execute(message, args, client) {
-        if (!message.guild.roles.cache.find(r => r.name === args[0])) {
+        if (!message.guild.roles.cache.find(r => r.name === args[0]) && message.member.hasPermission('ADMINISTRATOR')) {
             message.guild.roles.create({
                 data: {
                     name: args[0],
@@ -18,7 +18,7 @@ module.exports = {
             message.channel.send(`A role has been created called ${args[0]} with a colour of #${args[1]}`)
         }
         else {
-            message.channel.send('That role already exists')
+            message.channel.send('That role already exists or you do not have permission to preform that command')
         }
 	},
 };

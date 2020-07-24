@@ -1,4 +1,7 @@
 let player;
+const {
+    staffRoles
+} = require('../config.json');
 
 module.exports = {
 	name: 'role',
@@ -18,13 +21,25 @@ module.exports = {
             if (player == '') {
                 return message.channel.send('That player does not exist')
             }
+            if (!staffRoles.includes(args[0])) {
+                giveRole()
+            }
+            else if (staffRoles.includes(args[0]) && message.member.hasPermission('ADMINISTRATOR')) {
+                giveRole()
+            }
+            else {
+                return message.channel.send('You do not have the necessary permissions')
+            }
+        }
+        else {
+            message.channel.send('That role does not exist')
+        }
+
+        function giveRole() {
             let playerGot = message.guild.members.cache.get(player)
             let role = message.member.guild.roles.cache.find(r => r.name === args[0])
             playerGot.roles.add(role)
             message.channel.send(`Added user <@${player}> to role ${args[0]}`)
-        }
-        else {
-            message.channel.send('That role does not exist')
         }
 	},
 };
