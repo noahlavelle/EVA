@@ -15,13 +15,11 @@ module.exports = {
 
             const embedHelp = new Discord.MessageEmbed()
                 .setTitle('EVA Help Menu')
-                .setAuthor('EVA Bot', 'https://i.imgur.com/krP0yd8.jpg')
-                .setColor('#00ff00')
-                .setThumbnail('https://i.imgur.com/krP0yd8.jpg')
+                .setColor('#3498db')
                 .setFooter(`Requested by ${message.author.username}`)
                 .setTimestamp()
                 .addFields(
-                    { name: 'Here\'s a list of all my commands:', value: data},
+                    { name: 'Here\'s a list of all my commands:\n', value: data},
                     { name: 'Command specific help:', value: 'You can send .help [command name] to get info on a specific command!' }
                 )
 
@@ -44,13 +42,11 @@ module.exports = {
         }
 
         const embedCommand = new Discord.MessageEmbed()
-            .setTitle(`EVA Command Help: ${args[0]}`)
-            .setAuthor('EVA Bot', 'https://i.imgur.com/krP0yd8.jpg')
-            .setColor('#00ff00')
-            .setThumbnail('https://i.imgur.com/krP0yd8.jpg')
+            .setTitle(`Command: ${prefix}${command.name}`)
+            .setDescription(`**Aliases:** ${command.aliases}\n**Description:** ${command.description}\n**Cooldown:** ${command.cooldown || 3}\n**Sub Commands:**\n ${command.subcommands || 'none'}\n**Usage:** ${command.usage}`)
+            .setColor('#3498db')
             .setFooter(`Requested by ${message.author.username}`)
             .setTimestamp()
-            .setDescription(`**Aliases:** ${command.aliases.join(', ')}\n**Description:** ${command.description}\n**Usage:** ${prefix}${command.name} ${command.usage}\n**Cooldown:** ${command.cooldown || 3} second(s)`)
 
         message.channel.send(embedCommand);
 

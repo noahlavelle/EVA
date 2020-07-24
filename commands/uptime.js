@@ -11,7 +11,7 @@ module.exports = {
         const duration = moment.duration(client.uptime).format(" D [days], H [hrs], m [mins], s [secs]");
         const embed = new Discord.MessageEmbed()
             .setTitle(':signal_strength:  Uptime')
-            .addField(`The bot uptime is: ${duration}`, '\u200b')
+            .setDescription(`The bot uptime is: ${duration}`)
         message.channel.send(embed)
 	},
 };

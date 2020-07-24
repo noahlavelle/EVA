@@ -4,6 +4,7 @@ const {
     prefix,
     token
 } = require('./config.json');
+const { subcommands } = require('./commands/announce');
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
@@ -20,6 +21,10 @@ const cooldowns = new Discord.Collection();
 client.once('ready', () => {
     console.log('Ready!');
     client.user.setActivity(prefix + 'help', {type:'PLAYING'})
+});
+
+client.on('guildMemberAdd', member => {
+    member.roles.add(member.guild.roles.cache.find(r => r.name === 'Member'))
 });
 
 client.on('message', message => {
@@ -41,7 +46,13 @@ client.on('message', message => {
         let reply = `You didn't provide any arguments, ${message.author}!`;
 
         if (command.usage) {
-            reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
+            const usageEmbed = new Discord.MessageEmbed()
+                .setTitle(`Command: ${prefix}${command.name}`)
+                .setDescription(`**Aliases:** ${command.aliases}\n**Description:** ${command.description}\n**Cooldown:** ${command.cooldown || 3}\n**Sub Commands:**\n ${command.subcommands || 'none'}\n**Usage:** ${command.usage}`)
+                .setColor('#3498db')
+                .setFooter(`Requested by ${message.author.username}`)
+                .setTimestamp()
+            reply = usageEmbed;
         }
 
         return message.channel.send(reply);
