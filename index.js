@@ -98,13 +98,20 @@ client.on('message', message => {
         command.execute(message, args, client);
     } catch (error) {
         console.error(error);
-        message.reply('there was an error trying to execute that command!');
+        message.reply(errorEmbed('There was an error trying to execute that command!'));
     }
 });
 
 if (process.env.DEBUG) {
     console.log('Running in debug mode');
     process.on('unhandledRejection', e => { throw e });
+}
+
+function errorEmbed(errorMessage) {
+    const embedError = new Discord.MessageEmbed()
+        .setColor('#EB403B ')
+        .setDescription(errorMessage)
+    return embedError
 }
 
 client.login(token);
