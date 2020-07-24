@@ -1,3 +1,5 @@
+let player;
+
 module.exports = {
 	name: 'role',
     description: 'Gives a user a role.',
@@ -6,12 +8,23 @@ module.exports = {
     aliases: ['rank'],
     guildOnly: true,
 	execute(message, args, client) {
-            if (message.guild.roles.cache.find(r => r.name === args[0])) {
-                message.member.roles.add(message.guild.roles.cache.find(role => role.name === args[0]))
-                message.channel.send(`Added role ${args[0]} to user ${message.member}.`)
+        if (args.length == 2) {
+            player = args[1].replace(/[^0-9]/g, '')
+        }
+        else if (args.length == 1) {
+            player = message.member.id
+        }
+        if (message.guild.roles.cache.find(r => r.name === args[0])) {
+            if (player == '') {
+                return message.channel.send('That player does not exist')
             }
-            else {
-                message.channel.send('That role does not exist')
-            }
+            let playerGot = message.guild.members.cache.get(player)
+            let role = message.member.guild.roles.cache.find(r => r.name === args[0])
+            playerGot.roles.add(role)
+            message.channel.send(`Added user <@${player}> to role ${args[0]}`)
+        }
+        else {
+            message.channel.send('That role does not exist')
+        }
 	},
 };
