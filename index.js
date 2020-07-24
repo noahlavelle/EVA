@@ -21,6 +21,8 @@ const cooldowns = new Discord.Collection();
 client.once('ready', () => {
     console.log('Ready!');
     client.user.setActivity(prefix + 'help', {type:'PLAYING'})
+    require('./commands/game-status.js').reset();
+    require('./commands/game-status.js').games = [1];
 });
 
 client.on('guildMemberAdd', member => {
