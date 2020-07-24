@@ -5,7 +5,7 @@ const {
 
 module.exports = {
 	name: 'role',
-    description: 'Gives a user a role.',
+    description: 'Gives a user a role. Can only give roles lower than it.',
     args: true,
     usage: '<role> <user>',
     aliases: ['rank'],
@@ -21,15 +21,8 @@ module.exports = {
             if (player == '') {
                 return message.channel.send('That player does not exist')
             }
-            if (!staffRoles.includes(args[0])) {
-                giveRole()
-            }
-            else if (staffRoles.includes(args[0]) && message.member.hasPermission('ADMINISTRATOR')) {
-                giveRole()
-            }
-            else {
-                return message.channel.send('You do not have the necessary permissions')
-            }
+            giveRole()
+            
         }
         else {
             message.channel.send('That role does not exist')
