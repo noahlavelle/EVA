@@ -48,7 +48,7 @@ client.on('message', message => {
         if (command.usage) {
             const usageEmbed = new Discord.MessageEmbed()
                 .setTitle(`Command: ${prefix}${command.name}`)
-                .setDescription(`**Aliases:** ${command.aliases}\n**Description:** ${command.description}\n**Cooldown:** ${command.cooldown || 3}\n**Sub Commands:**\n ${command.subcommands || 'none'}\n**Usage:** ${command.usage}`)
+                .setDescription(`**Aliases:** ${command.aliases}\n**Description:** ${command.description}\n**Cooldown:**${command.cooldown || 3}\n**Usage:** ${command.usage}\n**Sub Commands:**\n${command.subcommands || 'none'}\n**Examples:**\n${command.examples || 'none'}`)
                 .setColor('#3498db')
                 .setFooter(`Requested by ${message.author.username}`)
                 .setTimestamp()
