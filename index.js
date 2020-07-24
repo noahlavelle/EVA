@@ -1,10 +1,11 @@
 const fs = require('fs');
 const Discord = require('discord.js');
-const {
-    prefix,
-    token
-} = require('./config.json');
+const config = require('./config.json');
+require('./commands/game-status.js').reset();
+require('./commands/game-status.js').games = [1];
+const token = config.token
 const { subcommands } = require('./commands/announce');
+let prefix = '!';
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
@@ -20,9 +21,7 @@ const cooldowns = new Discord.Collection();
 
 client.once('ready', () => {
     console.log('Ready!');
-    client.user.setActivity(prefix + 'help', {type:'PLAYING'})
-    require('./commands/game-status.js').reset();
-    require('./commands/game-status.js').games = [1];
+    client.user.setActivity('!' + 'help', {type:'PLAYING'})
 });
 
 client.on('guildMemberAdd', member => {
@@ -30,6 +29,21 @@ client.on('guildMemberAdd', member => {
 });
 
 client.on('message', message => {
+    if (message.channel.type !== 'dm') {
+        if (!config[message.guild.id]) {
+            config[message.guild.id] = {}
+            config[message.guild.id]['prefix'] = '!'
+            prefix = '!'
+            fs.writeFileSync('config.json', JSON.stringify(config), function (err) {
+                if (err) return console.log(err);
+                message.channel.send('Failed to write prefix to JSON file')
+            });
+        }
+        else {
+            prefix = config[message.guild.id]['prefix']
+        }
+    }
+
     if (!message.content.startsWith(prefix) || message.author.bot) return;
 
     const args = message.content.slice(prefix.length).trim().split(/ +/);
