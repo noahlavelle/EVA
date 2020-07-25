@@ -44,6 +44,7 @@ client.on('message', message => {
         else {
             prefix = config[message.guild.id]['prefix']
         }
+        module.exports.prefix = prefix
     }
 
     if (!message.content.startsWith(prefix) || message.author.bot) return;

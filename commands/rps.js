@@ -13,14 +13,15 @@ module.exports = {
     guildOnly: false,
     cooldown: 0,
 	execute(message, args, client) {
-        console.log(require('./game-status.js').games)
         switch (require('./game-status.js').games[message.author.id].game_stage) {
             case 0:
                 switch (message.author.id) {
                     case require('./game-status.js').games[message.author.id].player_two: 
+                    let game_status = require('./game-status.js')
                         switch (args[0]) {
                             case 'accept':
-                                let game_status = require('./game-status.js')
+                                require('./game-status.js').set_player_two('accepted', true, message.author.id)
+                                let prefix = require('../index.js').prefix
                                 const game_starting_embed = new discord.MessageEmbed()
                                 .setColor('#00ff00')
                                 .setTitle('Rock paper scissors game: (' + client.users.cache.get(game_status.games[message.author.id].player_one).username + ' vs ' + client.users.cache.get(game_status.games[message.author.id].player_two).username + ') has started.')
@@ -33,14 +34,13 @@ module.exports = {
                                 game_status = require('./game-status')
                                 break;
                             case 'decline':
-                                game_status = require('./game-status.js')
                                 const game_declined_embed = new discord.MessageEmbed()
                                 .setColor('#00ff00')
                                 .setTitle(message.author.username + ' has declined the rock paper scissors game: (' + client.users.cache.get(game_status.games[message.author.id].player_one).username + ' vs ' + client.users.cache.get(game_status.games[message.author.id].player_two).username + ')')
                                 .setTimestamp()
                                 .setThumbnail('https://www.netclipart.com/pp/m/290-2901471_rock-paper-scissors-clipart.png')
                                 client.users.cache.get(game_status.games[message.author.id].player_one).send(game_declined_embed)
-                                game_status.reset(game_status.games[message.author.id].player_one, game_status.games[message.author.id].player_two)
+                                game_status.reset(require('./game-status.js').games[message.author.id].player_one, game_status.games[message.author.id].player_two)
                                 break;
                         }
                         break;  
@@ -118,7 +118,6 @@ function evaluate_game(message, client) {
         if (player_one_input_code == 0 && player_two_input_code == 2) {client.users.cache.get(game_status.games[message.author.id].player_one).send(player_one_win); client.users.cache.get(game_status.games[message.author.id].player_two).send(player_one_win)}
         game_status.reset(game_status.games[message.author.id].player_one, game_status.games[message.author.id].player_two)
         game_status = require('./game-status.js')
-        console.log(game_status.games)
         return;
     }
 }
