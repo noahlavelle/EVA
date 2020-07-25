@@ -1,5 +1,7 @@
-const { prefix } = require('../config.json');
+const config = require('../config.json')
 const Discord = require('discord.js')
+
+let prefix = '!';
 
 module.exports = {
     name: 'help',
@@ -26,11 +28,11 @@ module.exports = {
             return message.author.send(embedHelp)
                 .then(() => {
                     if (message.channel.type === 'dm') return;
-                    message.reply('I\'ve sent you a DM with all my commands!');
+                    message.channel.send(embed('I\'ve sent you a DM with all my commands!', '#00D166'));
                 })
                 .catch(error => {
                     console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-                    message.reply('it seems like I can\'t DM you! Do you have DMs disabled?');
+                    message.channel.send(embed('It seems like I can\'t DM you! Do you have DMs disabled?', '#EB403B'));
                 });
                     }
         
@@ -38,17 +40,23 @@ module.exports = {
         const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
 
         if (!command) {
-            return message.reply('that\'s not a valid command!')
+            return message.channel.send(embed('That\'s not a valid command!', '#EB403B'))
         }
 
         const embedCommand = new Discord.MessageEmbed()
             .setTitle(`Command: ${prefix}${command.name}`)
-            .setDescription(`**Aliases:** ${command.aliases}\n**Description:** ${command.description}\n**Cooldown:**${command.cooldown || 3}\n**Usage:** ${command.usage}\n**Sub Commands:**\n${command.subcommands || 'none'}\n**Examples:**\n${command.examples || 'none'}`)
+            .setDescription(`**Aliases:** ${command.aliases || 'none'}\n**Description:** ${command.description || 'none'}\n**Cooldown:** ${command.cooldown || 3}\n**Usage:** ${command.usage || 'none'}\n**Sub Commands:**\n${command.subcommands || 'none'}\n**Examples:**\n${command.examples || 'none'}`)
             .setColor('#3498db')
             .setFooter(`Requested by ${message.author.username}`)
             .setTimestamp()
-
         message.channel.send(embedCommand);
+
+        function embed(message, color) {
+            const embedError = new Discord.MessageEmbed()
+                .setColor(color)
+                .setDescription(message)
+            return embedError
+        }
 
     },
 }

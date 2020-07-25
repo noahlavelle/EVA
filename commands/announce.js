@@ -1,42 +1,31 @@
 const Discord = require('discord.js')
 
-const {
-    prefix,
-    token
-} = require('../config.json');
-
 module.exports = {
 	name: 'announce',
     description: 'Sends an embed announcment to a given channel',
     args: true,
     usage: '<subcommand> <channel> <message>',
-    subcommands: `announce <channel> - Does not mention anyone\n${prefix}announce @everyone <channel> - Mentions everyone\n ${prefix}announce @here <channel> - Mentions everyone in a channel\n ${prefix}announce role <@role> <channel> - Mentions everyone of a role`,
-    examples: `${prefix}announce #general Hello World\nannounce @everyone #general Hello World\nannounce @here #general Hello World\nannounce role @Member #general Hello World`,
+    subcommands: 'announce <channel> - Does not mention anyone\nannounce @everyone <channel> - Mentions everyone\nannounce @here <channel> - Mentions everyone in a channel\nannounce role <@role> <channel> - Mentions everyone of a role\nannounce @user <channel> - Mentions a specific user',
+    examples: 'announce #general Hello World\nannounce @everyone #general Hello World\nannounce @here #general Hello World\nannounce role @Member #general Hello World\nannounce @Alex #general Hello Alex',
     aliases: ['embed'],
     guildOnly: true,
 	execute(message, args, client) {
         let tag;
         let iStart;
-        switch (args[0]) {
-            case '@everyone':
-                iStart = 2
-                tag = args[0]
-                generateEmbed()
-                break;
-            case '@here':
-                tag = args[0]
-                iStart = 2
-                generateEmbed()
-                break;
-            case 'role':
-                tag = args[1]
-                iStart = 3
-                generateEmbed()
-                break;
-            default:
-                iStart = 1
-                generateEmbed()
-                break;
+        if (!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(embed('You do not have permission to use this command.', '#EB403B'))
+        if (args[0].includes('@')) {
+            iStart = 2;
+            tag = args[0];
+            generateEmbed();
+        }
+        else if (args[0] = 'role') {
+            tag = args[1];
+            iStart = 3;
+            generateEmbed();
+        }
+        else {
+            iStart = 1
+            generateEmbed()
         }
 
         function generateEmbed() {
@@ -51,6 +40,13 @@ module.exports = {
                     message.guild.channels.cache.get(args[iStart-1].replace(/[^0-9]/g, '')).send(tag, embed)
                 }
             }
+        }
+
+        function embed(message, color) {
+            const embedError = new Discord.MessageEmbed()
+                .setColor(color)
+                .setDescription(message)
+            return embedError
         }
 	},
 };

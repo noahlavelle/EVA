@@ -1,11 +1,9 @@
 let player;
-const {
-    staffRoles
-} = require('../config.json');
+const Discord = require('discord.js')
 
 module.exports = {
 	name: 'role',
-    description: 'Gives a user a role.',
+    description: 'Gives a user a role. Can only give roles lower than it.',
     args: true,
     usage: '<role> <user>',
     aliases: ['rank'],
@@ -19,26 +17,26 @@ module.exports = {
         }
         if (message.guild.roles.cache.find(r => r.name === args[0])) {
             if (player == '') {
-                return message.channel.send('That player does not exist')
+                return message.reply(embed('That player does not exist', '#EB403B'))
             }
-            if (!staffRoles.includes(args[0])) {
-                giveRole()
-            }
-            else if (staffRoles.includes(args[0]) && message.member.hasPermission('ADMINISTRATOR')) {
-                giveRole()
-            }
-            else {
-                return message.channel.send('You do not have the necessary permissions')
-            }
+            giveRole()
+            
         }
         else {
-            message.channel.send('That role does not exist')
+            return message.reply(embed('That role does not exist', '#EB403B'))
         }
 
         function giveRole() {
             let playerGot = message.guild.members.cache.get(player)
             playerGot.roles.add(message.member.guild.roles.cache.find(r => r.name === args[0]));
-            message.channel.send(`Added user <@${player}> to role ${args[0]}`)
+            message.channel.send(embed(`Added user <@${player}> to role ${args[0]}`, '#00D166'))
+        }
+
+        function embed(message, color) {
+            const embedError = new Discord.MessageEmbed()
+                .setColor(color)
+                .setDescription(message)
+            return embedError
         }
 	},
 };
