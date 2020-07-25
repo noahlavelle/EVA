@@ -1,4 +1,4 @@
-let u = require('../utils')
+let u = require('../../utils')
 
 const Discord = require('discord.js')
 
@@ -30,8 +30,7 @@ module.exports = {
                 .then(() => {
                     if (message.channel.type === 'dm') return;
                     message.channel.send(u.embed('I\'ve sent you a DM with all my commands!', '#00D166'));
-                })
-                .catch(error => {
+                }).catch(error => {
                     console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
                     message.channel.send(u.embed('It seems like I can\'t DM you! Do you have DMs disabled?', '#EB403B'));
                 });
