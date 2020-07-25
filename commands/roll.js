@@ -1,4 +1,4 @@
-let u = require('../../utils')
+let u = require('../utils')
 
 let idRegex = (/[^a-z]/g)
 

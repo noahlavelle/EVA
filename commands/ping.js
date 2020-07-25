@@ -1,4 +1,4 @@
-let u = require('../../utils')
+let u = require('../utils')
 
 module.exports = {
 	name: 'ping',

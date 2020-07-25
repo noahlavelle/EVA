@@ -1,24 +1,19 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 const config = require('./config.json');
+require('./commands/game-status.js').reset();
+require('./commands/game-status.js').games = [1];
 const token = config.token
-
-require('./commands/games/game-status.js').reset();
-require('./commands/games/game-status.js').games = [1];
-
+const { subcommands } = require('./commands/announce');
 let prefix = '!';
-let commandFiles;
-
-const subFolders = ['games', 'images', 'guild', 'music', 'other']
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 
-for (subfolder in subFolders) {
-    commandFiles = fs.readdirSync(`./commands/${subFolders[subfolder]}`).filter(file => file.endsWith('.js'));
-}
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+
 for (const file of commandFiles) {
-    const command = require(`./commands/${subFolders[subfolder]}/${file}`);
+    const command = require(`./commands/${file}`);
     if (command.name != 'game-status') {
         client.commands.set(command.name, command);
     }

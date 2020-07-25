@@ -1,4 +1,4 @@
-let u = require('../../utils')
+let u = require('../utils')
 
 const moment = require("moment");
 require("moment-duration-format");
