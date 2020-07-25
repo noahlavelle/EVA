@@ -14,7 +14,9 @@ const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('
 
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
-    client.commands.set(command.name, command);
+    if (command.name != 'game-status') {
+        client.commands.set(command.name, command);
+    }
 }
 
 const cooldowns = new Discord.Collection();
@@ -55,16 +57,16 @@ client.on('message', message => {
     if (!command) return;
 
     if (command.guildOnly && message.channel.type !== 'text') {
-        return message.reply('I can\'t execute that command inside DMs!');
+        return message.reply(errorEmbed('I can\'t execute that command inside DMs!', '#EB403B'));
     }
 
     if (command.args && !args.length) {
-        let reply = `You didn't provide any arguments, ${message.author}!`;
+        let reply = errorEmbed(`You didn't provide any arguments, ${message.author}!`, '#EB403B');
 
         if (command.usage) {
             const usageEmbed = new Discord.MessageEmbed()
                 .setTitle(`Command: ${prefix}${command.name}`)
-                .setDescription(`**Aliases:** ${command.aliases}\n**Description:** ${command.description}\n**Cooldown:**${command.cooldown || 3}\n**Usage:** ${command.usage}\n**Sub Commands:**\n${command.subcommands || 'none'}\n**Examples:**\n${command.examples || 'none'}`)
+                .setDescription(`**Aliases:** ${command.aliases || 'none'}\n**Description:** ${command.description}\n**Cooldown:** ${command.cooldown || 3}\n**Usage:** ${command.usage || 'none'}\n**Sub Commands:**\n${command.subcommands || 'none'}\n**Examples:**\n${command.examples || 'none'}`)
                 .setColor('#3498db')
                 .setFooter(`Requested by ${message.author.username}`)
                 .setTimestamp()

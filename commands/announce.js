@@ -1,17 +1,12 @@
 const Discord = require('discord.js')
 
-const {
-    prefix,
-    token
-} = require('../config.json');
-
 module.exports = {
 	name: 'announce',
     description: 'Sends an embed announcment to a given channel',
     args: true,
     usage: '<subcommand> <channel> <message>',
-    subcommands: `announce <channel> - Does not mention anyone\n${prefix}announce @everyone <channel> - Mentions everyone\n ${prefix}announce @here <channel> - Mentions everyone in a channel\n ${prefix}announce role <@role> <channel> - Mentions everyone of a role`,
-    examples: `${prefix}announce #general Hello World\nannounce @everyone #general Hello World\nannounce @here #general Hello World\nannounce role @Member #general Hello World`,
+    subcommands: 'announce <channel> - Does not mention anyone\nannounce @everyone <channel> - Mentions everyone\nannounce @here <channel> - Mentions everyone in a channel\nannounce role <@role> <channel> - Mentions everyone of a role',
+    examples: 'announce #general Hello World\nannounce @everyone #general Hello World\nannounce @here #general Hello World\nannounce role @Member #general Hello World',
     aliases: ['embed'],
     guildOnly: true,
 	execute(message, args, client) {

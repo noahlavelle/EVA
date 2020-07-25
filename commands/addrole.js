@@ -1,3 +1,5 @@
+const Discord = require('discord.js')
+
 module.exports = {
 	name: 'addrole',
     description: 'Adds a role to the server',
@@ -15,10 +17,17 @@ module.exports = {
                 reason: `requested by ${message.author.username}`
             })
             if (typeof args[1] == 'undefined') args[1] = '99AAB5'
-            message.channel.send(`A role has been created called ${args[0]} with a colour of #${args[1]}`)
+            message.channel.send(embed(`A role has been created called ${args[0]} with a colour of #${args[1]}`, '#00D166'))
         }
         else {
-            message.channel.send('That role already exists or you do not have permission to preform that command')
+            message.channel.send(embed('That role already exists or you do not have permission to preform that command', '#EB403B'))
+        }
+
+        function embed(message, color) {
+            const embedError = new Discord.MessageEmbed()
+                .setColor(color)
+                .setDescription(message)
+            return embedError
         }
 	},
 };
