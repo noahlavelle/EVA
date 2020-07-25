@@ -11,6 +11,7 @@ module.exports = {
     aliases: ['change', 'vars'],
     guildOnly: true,
 	execute(message, args, client) {
+        if (!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(embed('You do not have permission to use this command.', '#EB403B'))
         if (!config[message.guild.id]) config[message.guild.id] = {};
         switch (args[0]) {
             case 'prefix':

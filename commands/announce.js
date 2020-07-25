@@ -12,6 +12,7 @@ module.exports = {
 	execute(message, args, client) {
         let tag;
         let iStart;
+        if (!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(embed('You do not have permission to use this command.', '#EB403B'))
         if (args[0].includes('@')) {
             iStart = 2;
             tag = args[0];
@@ -39,6 +40,13 @@ module.exports = {
                     message.guild.channels.cache.get(args[iStart-1].replace(/[^0-9]/g, '')).send(tag, embed)
                 }
             }
+        }
+
+        function embed(message, color) {
+            const embedError = new Discord.MessageEmbed()
+                .setColor(color)
+                .setDescription(message)
+            return embedError
         }
 	},
 };

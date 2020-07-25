@@ -8,7 +8,8 @@ module.exports = {
     aliases: ['addrank'],
     guildOnly: true,
 	execute(message, args, client) {
-        if (!message.guild.roles.cache.find(r => r.name === args[0]) && message.member.hasPermission('ADMINISTRATOR')) {
+        if (!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(embed('You do not have permission to use this command.', '#EB403B'))
+        if (!message.guild.roles.cache.find(r => r.name === args[0])) {
             message.guild.roles.create({
                 data: {
                     name: args[0],
