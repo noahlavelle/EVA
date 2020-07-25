@@ -8,7 +8,8 @@ module.exports = {
             player_one_inputed : false,
             player_two_inputed : false,
             player_one_input_code : false,
-            player_two_input_code : false
+            player_two_input_code : false,
+            accepted : false
         }
         module.exports.games[player_two] = {
             game_stage : 0,
@@ -18,7 +19,8 @@ module.exports = {
             player_one_inputed : false,
             player_two_inputed : false,
             player_one_input_code : false,
-            player_two_input_code : false
+            player_two_input_code : false,
+            accepted : false
         }
     },
     'set_player_one' : function(variable, content, player_one) {
@@ -54,6 +56,10 @@ module.exports = {
             case 'player_two_input_code':
                 module.exports.games[player_one].player_two_input_code = content
                 module.exports.games[module.exports.games[player_one].player_two].player_two_input_code = content
+                break;
+            case 'accepted':
+                module.exports.games[player_one].accepted = content
+                module.exports.games[module.exports.games[player_one].player_two].accepted = content
                 break;
         }
     },
@@ -91,6 +97,10 @@ module.exports = {
                 module.exports.games[player_two].player_two_input_code = content
                 module.exports.games[module.exports.games[player_two].player_one].player_two_input_code = content
                 break;
+            case 'accepted':
+                module.exports.games[player_two].accepted = content
+                module.exports.games[module.exports.games[player_two].player_one].accepted = content
+                break;
         }
     },
     'reset' : function (player_one, player_two) {
@@ -102,7 +112,8 @@ module.exports = {
             player_one_inputed : undefined,
             player_two_inputed : undefined,
             player_one_input_code : undefined,
-            player_two_input_code : undefined
+            player_two_input_code : undefined,
+            accepted : undefined
         }
         module.exports.games[player_two] = {
             game_stage : undefined,
@@ -112,7 +123,8 @@ module.exports = {
             player_one_inputed : undefined,
             player_two_inputed : undefined,
             player_one_input_code : undefined,
-            player_two_input_code : undefined
+            player_two_input_code : undefined,
+            accepted : undefined
         }
     }
 }
