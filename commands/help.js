@@ -1,4 +1,5 @@
-const config = require('../config.json')
+let u = require('../utils')
+
 const Discord = require('discord.js')
 
 let prefix = '!';
@@ -28,11 +29,11 @@ module.exports = {
             return message.author.send(embedHelp)
                 .then(() => {
                     if (message.channel.type === 'dm') return;
-                    message.channel.send(embed('I\'ve sent you a DM with all my commands!', '#00D166'));
+                    message.channel.send(u.embed('I\'ve sent you a DM with all my commands!', '#00D166'));
                 })
                 .catch(error => {
                     console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-                    message.channel.send(embed('It seems like I can\'t DM you! Do you have DMs disabled?', '#EB403B'));
+                    message.channel.send(u.embed('It seems like I can\'t DM you! Do you have DMs disabled?', '#EB403B'));
                 });
                     }
         
@@ -43,20 +44,7 @@ module.exports = {
             return message.channel.send(embed('That\'s not a valid command!', '#EB403B'))
         }
 
-        const embedCommand = new Discord.MessageEmbed()
-            .setTitle(`Command: ${prefix}${command.name}`)
-            .setDescription(`**Aliases:** ${command.aliases || 'none'}\n**Description:** ${command.description || 'none'}\n**Cooldown:** ${command.cooldown || 3}\n**Usage:** ${command.usage || 'none'}\n**Sub Commands:**\n${command.subcommands || 'none'}\n**Examples:**\n${command.examples || 'none'}`)
-            .setColor('#3498db')
-            .setFooter(`Requested by ${message.author.username}`)
-            .setTimestamp()
-        message.channel.send(embedCommand);
-
-        function embed(message, color) {
-            const embedError = new Discord.MessageEmbed()
-                .setColor(color)
-                .setDescription(message)
-            return embedError
-        }
-
+        message.channel.send(u.titleEmbed(`**Aliases:** ${command.aliases || 'none'}\n**Description:** ${command.description || 'none'}\n**Cooldown:** ${command.cooldown || 3}\n**Usage:** ${command.usage || 'none'}\n**Sub Commands:**\n${command.subcommands || 'none'}\n**Examples:**\n${command.examples || 'none'}`,
+        '#3498db', `Command: ${prefix}${command.name}`))
     },
 }

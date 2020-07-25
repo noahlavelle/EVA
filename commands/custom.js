@@ -1,5 +1,6 @@
+let u = require('../utils')
+
 const fs = require('fs')
-const Discord = require('discord.js')
 const config = require('../config.json')
 
 module.exports = {
@@ -11,31 +12,24 @@ module.exports = {
     aliases: ['change', 'vars'],
     guildOnly: true,
 	execute(message, args, client) {
-        if (!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(embed('You do not have permission to use this command.', '#EB403B'))
+        if (!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(u.embed('You do not have permission to use this command.', '#EB403B'))
         if (!config[message.guild.id]) config[message.guild.id] = {};
         switch (args[0]) {
             case 'prefix':
-                message.channel.send(embed(`Changed prefix to ${args[1]}`, '#00D166'));
+                message.channel.send(u.embed(`Changed prefix to ${args[1]}`, '#00D166'));
                 config[message.guild.id]['prefix'] = args[1];
                 writeToJSON();
                 break;
             default:
-                message.channel.send(embed('That value is not changable', '#EB403B'))
+                message.channel.send(u.embed('That value is not changable', '#EB403B'))
                 break;
         }
 
         function writeToJSON() {
             fs.writeFileSync('config.json', JSON.stringify(config), function (err) {
                 if (err) return console.log(err);
-                message.channel.send(embed('Failed to write prefix to JSON file', '#EB403B'));
+                message.channel.send(u.embed('Failed to write prefix to JSON file', '#EB403B'));
               });
-        }
-
-        function embed(message, color) {
-            const embedError = new Discord.MessageEmbed()
-                .setColor(color)
-                .setDescription(message)
-            return embedError
         }
 	},
 };

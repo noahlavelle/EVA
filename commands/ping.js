@@ -1,4 +1,4 @@
-const Discord = require('discord.js')
+let u = require('../utils')
 
 module.exports = {
 	name: 'ping',
@@ -8,10 +8,8 @@ module.exports = {
 	execute(message, args, client) {
 		message.channel.send("Pinging...").then(m =>{
 			var ping = m.createdTimestamp - message.createdTimestamp;
-			const embed = new Discord.MessageEmbed()
-				.setTitle(`:ping_pong:  Pong!`)
-				.setDescription(`Your Ping is: ${ping}ms`);
-            m.edit(embed);
+			m.delete();
+			message.channel.send(u.titleEmbed(`Your Ping is: ${ping}ms`, '#3498db', ':ping_pong:  Pong!'));
         });
 	},
 };

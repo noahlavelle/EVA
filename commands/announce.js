@@ -1,3 +1,5 @@
+let u = require('../utils')
+
 const Discord = require('discord.js')
 
 module.exports = {
@@ -12,41 +14,27 @@ module.exports = {
 	execute(message, args, client) {
         let tag;
         let iStart;
-        if (!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(embed('You do not have permission to use this command.', '#EB403B'))
+        if (!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(u.embed('You do not have permission to use this command.', '#EB403B'))
         if (args[0].includes('@')) {
             iStart = 2;
             tag = args[0];
-            generateEmbed();
-        }
-        else if (args[0] = 'role') {
+        } else if (args[0] = 'role') {
             tag = args[1];
             iStart = 3;
-            generateEmbed();
-        }
-        else {
+        } else {
             iStart = 1
-            generateEmbed()
         }
 
-        function generateEmbed() {
-            let compiledMessage = [];
-            for (i = iStart; i <= args.length - 1; i++) {
-                compiledMessage += args[i] + ' '
-                if (i == args.length - 1) {
-                    const embed = new Discord.MessageEmbed()
-                    .setColor('#3498db')
-                    .setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
-                    .setDescription(compiledMessage)
-                    message.guild.channels.cache.get(args[iStart-1].replace(/[^0-9]/g, '')).send(tag, embed)
-                }
+        let compiledMessage = [];
+        for (i = iStart; i <= args.length - 1; i++) {
+            compiledMessage += args[i] + ' '
+            if (i == args.length - 1) {
+                const embed = new Discord.MessageEmbed()
+                .setColor('#3498db')
+                .setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
+                .setDescription(compiledMessage)
+                message.guild.channels.cache.get(args[iStart-1].replace(/[^0-9]/g, '')).send(tag, embed)
             }
-        }
-
-        function embed(message, color) {
-            const embedError = new Discord.MessageEmbed()
-                .setColor(color)
-                .setDescription(message)
-            return embedError
         }
 	},
 };

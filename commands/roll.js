@@ -1,4 +1,5 @@
-const Discord = require('discord.js')
+let u = require('../utils')
+
 let idRegex = (/[^a-z]/g)
 
 module.exports = {
@@ -11,21 +12,14 @@ module.exports = {
 	execute(message,  args, client) {
         var coin = ['heads', 'tails']
         var command = message.content.toLowerCase().replace(idRegex, '')
-        if (!Number.isInteger(parseInt(args[0])) || args[0] <= 0) return message.channel.send(embed(':game_die: I cannot roll a die of that size', '#EB403B'))
+        if (!Number.isInteger(parseInt(args[0])) || args[0] <= 0) return message.channel.send(u.embed(':game_die: I cannot roll a die of that size', '#EB403B'))
         switch (command) {
             case 'roll': case 'die': case 'dice': case 'd':
-                message.channel.send(embed(`:game_die: You rolled a ${args[0]} sided die. You got ${Math.round(Math.random() * args[0] + 1)}`, '#3498db'))
+                message.channel.send(u.embed(`:game_die: You rolled a ${args[0]} sided die. You got ${Math.round(Math.random() * args[0] + 1)}`, '#3498db'))
                 break;
             case 'flip': case 'coin':
-                message.channel.send(embed(`:moneybag: You flipped a coin, it was ${coin[Math.round(Math.random())]}!`, '#3498db'))
+                message.channel.send(u.embed(`:moneybag: You flipped a coin, it was ${coin[Math.round(Math.random())]}!`, '#3498db'))
                 break;
-        }
-
-        function embed(message, color) {
-            const embedError = new Discord.MessageEmbed()
-                .setColor(color)
-                .setDescription(message)
-            return embedError
         }
 	},
 };

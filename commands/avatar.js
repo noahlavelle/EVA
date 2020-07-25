@@ -13,10 +13,11 @@ module.exports = {
 			return message.channel.send(yourEmbed)
 		}
 
-		const avatarList = message.mentions.users.map(user => {
+		message.mentions.users.map(user => {
 			const mentionEmbed = new Discord.MessageEmbed()
 				.setTitle(`${user.username}'s Avatar`)
 				.setImage(user.displayAvatarURL({ dynamic: true }))
+				.setColor('#3498db')
 			return message.channel.send(mentionEmbed)
 		});
 
