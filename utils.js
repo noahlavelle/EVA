@@ -17,5 +17,14 @@ function titleEmbed(message, color, title) {
     return titleEmbed
 }
 
+function imageEmbed(title, color, image) {
+    const imageEmbed = new Discord.MessageEmbed()
+        .setTitle(title)
+        .setImage(image)
+        .setColor(color)
+    return imageEmbed
+}
+
+module.exports.imageEmbed = imageEmbed;
 module.exports.titleEmbed = titleEmbed;
 module.exports.embed = embed;

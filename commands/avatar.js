@@ -1,24 +1,16 @@
-const Discord = require('discord.js')
+let u = require('../utils')
 
 module.exports = {
 	name: 'avatar',
 	description: 'Get the avatar URL of the tagged user(s), or your own avatar.',
     aliases: ['icon', 'pfp'],
     guildOnly: true,
-	execute(message) {
-		if (!message.mentions.users.size) {
-			const yourEmbed = new Discord.MessageEmbed()
-				.setTitle('Your Avatar')
-				.setImage(message.author.displayAvatarURL({ dynamic: true }))
-			return message.channel.send(yourEmbed)
+	execute(message, args, client) {
+		if (!args[0]) {
+			message.channel.send(u.imageEmbed(`Your Avatar`, '#3498db', message.author.displayAvatarURL({ dynamic: true })))
 		}
-
 		message.mentions.users.map(user => {
-			const mentionEmbed = new Discord.MessageEmbed()
-				.setTitle(`${user.username}'s Avatar`)
-				.setImage(user.displayAvatarURL({ dynamic: true }))
-				.setColor('#3498db')
-			return message.channel.send(mentionEmbed)
+			return message.channel.send(u.imageEmbed(`${user.username}'s Avatar`, '#3498db', user.displayAvatarURL({ dynamic: true })))
 		});
 
 	},

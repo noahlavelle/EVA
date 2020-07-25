@@ -1,6 +1,7 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 const config = require('./config.json');
+const help = require('./commands/help')
 require('./commands/game-status.js').reset();
 require('./commands/game-status.js').games = [1];
 const token = config.token
@@ -14,7 +15,7 @@ const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('
 
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
-    if (command.name != 'game-status') {
+    if (typeof command.name !== 'undefined') {
         client.commands.set(command.name, command);
     }
 }
@@ -27,6 +28,7 @@ client.once('ready', () => {
 });
 
 client.on('guildMemberAdd', member => {
+    help.execute('', [], client, member)
     member.roles.add(member.guild.roles.cache.find(r => r.name === 'Member'))
 });
 
@@ -44,6 +46,7 @@ client.on('message', message => {
         else {
             prefix = config[message.guild.id]['prefix']
         }
+        module.exports.prefix = prefix
     }
 
     if (!message.content.startsWith(prefix) || message.author.bot) return;
