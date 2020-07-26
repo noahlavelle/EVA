@@ -8,7 +8,6 @@ module.exports = {
     guildOnly: true,
 	execute(message, args, client) {
 		var onlineCount = message.guild.members.cache.filter(m => m.presence.status === 'online').size
-		console.log(message.guild)
 		const embed = new Discord.MessageEmbed()
 			.setTitle(`Server info for: ${message.guild.name}`)
 			.setThumbnail(message.guild.iconURL())
