@@ -1,7 +1,5 @@
 const discord = require('discord.js');
-const {
-    prefix
-} = require('../config.json');
+let prefix = require('../index.js').prefix;
 
 module.exports = {
 	name: 'game',
@@ -11,7 +9,6 @@ module.exports = {
     aliases: ['play', 'games', 'challenge'],
     guildOnly: true,
 	execute(message, args, client) {
-        let prefix = require('../index.js').prefix
         let game_status = require('./game-status.js')
         if (message.guild.members.cache.has(args[0].replace(/[^0-9]/g, ''))) {
             if (args[0].replace(/[^0-9]/g, '') != message.author.id) {
@@ -57,6 +54,7 @@ module.exports = {
                             case 'ttt':
                                 game_status.add(message.author.id, args[0].replace(/[^0-9]/g , ''), 'ttt')
                                 game_status = require('./game-status.js')
+                                prefix = require('../index.js').prefix;
                                 ttt_embed = new discord.MessageEmbed()
                                 .setColor('#00ff00')
                                 .setTitle('You have been challenged to a game of Tic, Tac, Toe by ' + message.author.username)
@@ -137,7 +135,7 @@ function game_challenge_rps( message, client) {
         .setThumbnail('https://www.netclipart.com/pp/m/290-2901471_rock-paper-scissors-clipart.png')
 }  
 
-function game_challenge_ttt( message, client) {
+function game_challenge_ttt(message, client) {
     return new discord.MessageEmbed()
         .setColor('#00ff00')
         .setTitle(message.author.username + ' challenged ' + client.users.cache.get(require('./game-status.js').games[message.author.id].player_two).username + ' to a game of Tic, Tac, Toe!')

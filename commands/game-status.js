@@ -10,7 +10,8 @@ module.exports = {
             player_one_input_code : false,
             player_two_input_code : false,
             accepted : false,
-            playing_game : true
+            playing_game : true,
+            ttt_grid : [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
         }
         module.exports.games[player_two] = {
             game_stage : 0,
@@ -22,12 +23,13 @@ module.exports = {
             player_one_input_code : false,
             player_two_input_code : false,
             accepted : false,
-            playing_game : true
+            playing_game : true,
+            ttt_grid : [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
         },
         module.exports.players.push(player_one),
         module.exports.players.push(player_two)
     },
-    'set_player_one' : function(variable, content, player_one) {
+    'set_player_one' : function(variable, content, player_one, ttt) {
         switch (variable) {
             case 'game_stage':
                 module.exports.games[player_one].game_stage = content
@@ -65,9 +67,13 @@ module.exports = {
                 module.exports.games[player_one].accepted = content
                 module.exports.games[module.exports.games[player_one].player_two].accepted = content
                 break;
+            case 'ttt_grid':
+                module.exports.games[player_one].ttt_grid[ttt] = content
+                module.exports.games[module.exports.games[player_one].player_two].ttt_grid[ttt] = content
+                break;
         }
     },
-    'set_player_two' : function(variable, content, player_two) {
+    'set_player_two' : function(variable, content, player_two, ttt) {
         switch (variable) {
             case 'game_stage':
                 module.exports.games[player_two].game_stage = content
@@ -104,6 +110,10 @@ module.exports = {
             case 'accepted':
                 module.exports.games[player_two].accepted = content
                 module.exports.games[module.exports.games[player_two].player_one].accepted = content
+                break;
+            case 'ttt_grid':
+                module.exports.games[player_two].ttt_grid[ttt] = content
+                module.exports.games[module.exports.games[player_two].player_one].ttt_grid[ttt] = content
                 break;
         }
     },

@@ -1,8 +1,5 @@
 const discord = require('discord.js')
-const {
-    prefix
-} = require('../config.json');
-const game = require('./game');
+const prefix = require('../index.js').prefix;
 
 module.exports = {
 	name: 'rps',
@@ -21,7 +18,6 @@ module.exports = {
                         switch (args[0]) {
                             case 'accept':
                                 require('./game-status.js').set_player_two('accepted', true, message.author.id)
-                                let prefix = require('../index.js').prefix
                                 const game_starting_embed = new discord.MessageEmbed()
                                 .setColor('#00ff00')
                                 .setTitle('Rock paper scissors game: (' + client.users.cache.get(game_status.games[message.author.id].player_one).username + ' vs ' + client.users.cache.get(game_status.games[message.author.id].player_two).username + ') has started.')
