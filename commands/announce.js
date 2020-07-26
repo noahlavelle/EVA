@@ -18,7 +18,7 @@ module.exports = {
         if (args[0].includes('@')) {
             iStart = 2;
             tag = args[0];
-        } else if (args[0] = 'role') {
+        } else if (args[0] == 'role') {
             tag = args[1];
             iStart = 3;
         } else {
