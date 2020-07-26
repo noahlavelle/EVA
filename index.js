@@ -2,8 +2,8 @@ const fs = require('fs');
 const Discord = require('discord.js');
 const config = require('./config.json');
 const help = require('./commands/help')
-require('./commands/game-status.js').reset();
 require('./commands/game-status.js').games = [1];
+require('./commands/game-status.js').players = [1];
 const token = config.token
 const { subcommands } = require('./commands/announce');
 let prefix = '!';

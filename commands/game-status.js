@@ -9,7 +9,8 @@ module.exports = {
             player_two_inputed : false,
             player_one_input_code : false,
             player_two_input_code : false,
-            accepted : false
+            accepted : false,
+            playing_game : true
         }
         module.exports.games[player_two] = {
             game_stage : 0,
@@ -20,8 +21,11 @@ module.exports = {
             player_two_inputed : false,
             player_one_input_code : false,
             player_two_input_code : false,
-            accepted : false
-        }
+            accepted : false,
+            playing_game : true
+        },
+        module.exports.players.push(player_one),
+        module.exports.players.push(player_two)
     },
     'set_player_one' : function(variable, content, player_one) {
         switch (variable) {
@@ -104,29 +108,20 @@ module.exports = {
         }
     },
     'reset' : function (player_one, player_two) {
+        module.exports.games[player_one] = undefined,
         module.exports.games[player_one] = {
-            game_stage : undefined,
-            game_playing : false,
-            player_one : undefined,
-            player_two : undefined,
-            player_one_inputed : undefined,
-            player_two_inputed : undefined,
-            player_one_input_code : undefined,
-            player_two_input_code : undefined,
-            accepted : undefined
+            accepted : true,
+            playing_game : false
         }
+        module.exports.games[player_two] = undefined,
         module.exports.games[player_two] = {
-            game_stage : undefined,
-            game_playing : false,
-            player_one : undefined,
-            player_two : undefined,
-            player_one_inputed : undefined,
-            player_two_inputed : undefined,
-            player_one_input_code : undefined,
-            player_two_input_code : undefined,
-            accepted : undefined
+            accepted : true,
+            playing_game : false
         }
+        module.exports.players[module.exports.players.indexOf(player_one)] = false,
+        module.exports.players[module.exports.players.indexOf(player_two)] = false
     }
 }
 
 module.exports.games = [1]
+module.exports.players = [1]
