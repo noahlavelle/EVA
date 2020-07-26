@@ -11,7 +11,7 @@ module.exports = {
             player_two_input_code : false,
             accepted : false,
             playing_game : true,
-            ttt_grid : [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+            ttt_grid : ['—', '—', '—', '—', '—', '—', '—', '—', '—']
         }
         module.exports.games[player_two] = {
             game_stage : 0,
@@ -24,7 +24,7 @@ module.exports = {
             player_two_input_code : false,
             accepted : false,
             playing_game : true,
-            ttt_grid : [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+            ttt_grid : ['—', '—', '—', '—', '—', '—', '—', '—', '—']
         },
         module.exports.players.push(player_one),
         module.exports.players.push(player_two)

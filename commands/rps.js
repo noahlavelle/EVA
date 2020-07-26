@@ -1,5 +1,5 @@
 const discord = require('discord.js')
-const prefix = require('../index.js').prefix;
+let prefix = require('../index.js').prefix;
 
 module.exports = {
 	name: 'rps',
@@ -17,6 +17,7 @@ module.exports = {
                     let game_status = require('./game-status.js')
                         switch (args[0]) {
                             case 'accept':
+                                prefix = require('../index.js').prefix;
                                 require('./game-status.js').set_player_two('accepted', true, message.author.id)
                                 const game_starting_embed = new discord.MessageEmbed()
                                 .setColor('#00ff00')
@@ -36,6 +37,7 @@ module.exports = {
                                 .setTimestamp()
                                 .setThumbnail('https://www.netclipart.com/pp/m/290-2901471_rock-paper-scissors-clipart.png')
                                 client.users.cache.get(game_status.games[message.author.id].player_one).send(game_declined_embed)
+                                message.author.send(game_declined_embed)
                                 game_status.reset(require('./game-status.js').games[message.author.id].player_one, game_status.games[message.author.id].player_two)
                                 break;
                         }
@@ -47,15 +49,47 @@ module.exports = {
                 switch (message.author.id) {
                     case game_status.games[message.author.id].player_one:
                         let player_one_input = args[0].toLowerCase()
-                        game_status.set_player_one('player_one_input_code', rps_editor(player_one_input), message.author.id)
-                        game_status.set_player_one('player_one_inputed', true, message.author.id)
-                        evaluate_game(message, client)
+                        if (player_one_input == 'rock' || player_one_input == 'paper' || player_one_input == 'scissors') {
+                            game_status.set_player_one('player_one_input_code', rps_editor(player_one_input), message.author.id)
+                            game_status.set_player_one('player_one_inputed', true, message.author.id)
+                            const input_embed = new discord.MessageEmbed()
+                            .setColor('#00ff00')
+                            .setTitle(player_one_input[0].toUpperCase() + player_one_input.slice(1) + ' selected')
+                            .setTimestamp()
+                            .setThumbnail('https://www.netclipart.com/pp/m/290-2901471_rock-paper-scissors-clipart.png')
+                            message.author.send(input_embed)
+                            evaluate_game(message, client)
+                        }
+                        else {
+                            const error_embed = new discord.MessageEmbed()
+                            .setColor('#00ff00')
+                            .setTitle('Please enter Rock, Paper or scissors')
+                            .setTimestamp()
+                            .setThumbnail('https://www.netclipart.com/pp/m/290-2901471_rock-paper-scissors-clipart.png')
+                            message.author.send(error_embed)
+                        }
                         break;
                     case game_status.games[message.author.id].player_two:
                         let player_two_input = args[0].toLowerCase()
-                        game_status.set_player_two('player_two_input_code', rps_editor(player_two_input), message.author.id)
-                        game_status.set_player_two('player_two_inputed', true, message.author.id)
-                        evaluate_game(message, client)
+                        if (player_two_input == 'rock' || player_two_input == 'paper' || player_two_input == 'scissors') {
+                            game_status.set_player_two('player_two_input_code', rps_editor(player_two_input), message.author.id)
+                            game_status.set_player_two('player_two_inputed', true, message.author.id)
+                            const input_embed = new discord.MessageEmbed()
+                            .setColor('#00ff00')
+                            .setTitle(player_two_input[0].toUpperCase() + player_two_input.slice(1) + ' selected')
+                            .setTimestamp()
+                            .setThumbnail('https://www.netclipart.com/pp/m/290-2901471_rock-paper-scissors-clipart.png')
+                            message.author.send(input_embed)
+                            evaluate_game(message, client)
+                        }
+                        else {
+                            const error_embed = new discord.MessageEmbed()
+                            .setColor('#00ff00')
+                            .setTitle('Please enter Rock, Paper or scissors')
+                            .setTimestamp()
+                            .setThumbnail('https://www.netclipart.com/pp/m/290-2901471_rock-paper-scissors-clipart.png')
+                            message.author.send(error_embed)
+                        }
                         break;
                 }
                 break;

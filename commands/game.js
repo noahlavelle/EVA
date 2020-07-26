@@ -18,6 +18,7 @@ module.exports = {
                             case 'rps':
                                 game_status.add(message.author.id, args[0].replace(/[^0-9]/g , ''), 'rps')
                                 game_status = require('./game-status.js')
+                                prefix = require('../index.js').prefix;
                                 rps_embed = new discord.MessageEmbed()
                                 .setColor('#00ff00')
                                 .setTitle('You have been challenged to a game of Rock, Paper, Scissors by ' + message.author.username)
