@@ -33,6 +33,17 @@ client.on('guildMemberAdd', member => {
     member.roles.add(member.guild.roles.cache.find(r => r.name === 'Member'))
 });
 
+client.on("guildCreate", guild => {    
+    const join_embed = new Discord.MessageEmbed()
+    .setTitle(`Thanks for adding me to your server ${guild.name}, my deafult prefix is ` + '`.`')
+    .setDescription('Type `.help` to see a list of commands')
+    .setColor('#3498db')
+    .setTimestamp()
+    guild.owner.send(join_embed)
+    console.log(`New guild joined: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
+});
+
+
 client.on('message', message => {
     if (message.channel.type !== 'dm') {
         if (!config[message.guild.id]) {

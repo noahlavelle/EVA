@@ -20,7 +20,7 @@ module.exports = {
             .then(json => embed = u.titleEmbed(`:fire: ${json.insult}`, '#3498db', 'Evil Insult:'))
             .then(() => message.channel.send(tag, embed))
             .catch(err => {
-                message.channel.send('We could not find you an evil insult :confused:');
+                message.channel.send('We could not find you an evil insult :confused:\nIf you think you have found a bug or glitch, please report it on the offical EVABot discord: https://discord.gg/MRaZTwJ');
                 return console.error(err);
             })
 	},

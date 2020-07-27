@@ -11,7 +11,7 @@ module.exports = {
             .then(res => res.json())
             .then(json => message.reply(json.text))
             .catch(err => {
-                message.channel.send('We could not find you a fortune :confused:');
+                message.channel.send('We could not find you a fortune :confused:\nIf you think you have found a bug or glitch, please report it on the offical EVABot discord: https://discord.gg/MRaZTwJ');
                 return console.error(err);
             })
 	},

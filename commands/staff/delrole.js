@@ -18,7 +18,7 @@ module.exports = {
             .then(message.reply(`Role ${args[0]} has been deleted`))
             .catch(e => {
                 console.error(e)
-                message.reply('Something went wrong while deleting that role.')
+                message.reply('Something went wrong while deleting that role.\nIf you think you have found a bug or glitch, please report it on the offical EVABot discord: https://discord.gg/MRaZTwJ')
             })
 	},
 };

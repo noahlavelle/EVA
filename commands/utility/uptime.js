@@ -13,7 +13,7 @@ module.exports = {
             .reply(duration)
             .catch(e => {
                 console.error(e)
-                message.reply('Something went wrong while getting the uptime')
+                message.reply('Something went wrong while getting the uptime\nIf you think you have found a bug or glitch, please report it on the offical EVABot discord: https://discord.gg/MRaZTwJ')
             })
     }
 };
