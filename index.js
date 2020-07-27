@@ -2,14 +2,27 @@ const { readdirSync, writeFileSync } = require("fs");
 const Discord = require('discord.js');
 const config = require('./config.json');
 const help = require('./commands/utility/help');
+const Enmap = require('enmap');
 const { sep } = require("path");
 require('./commands/games/game-status.js').games = [1];
 require('./commands/games/game-status.js').players = [1];
 const token = config.token
-let prefix = '!';
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
+
+client.settings = new Enmap({
+    name: "settings",
+    fetchAll: false,
+    autoFetch: true,
+    cloneLevel: 'deep'
+});
+
+const defaultSettings = {
+    prefix: "!",
+    joinRole: "Member",
+    jokeFilters: "nsfw,religious,political,racist,sexist",
+}
 
 readdirSync('./commands/').forEach(dirs => {
     const commandFiles = readdirSync(`./commands/${sep}/${dirs}${sep}`)
@@ -28,9 +41,18 @@ client.once('ready', () => {
     client.user.setActivity('!' + 'help', {type:'PLAYING'})
 });
 
+client.on("guildDelete", guild => {
+    client.settings.delete(guild.id);
+});
+
 client.on('guildMemberAdd', member => {
     help.execute('', [], client, member)
-    member.roles.add(member.guild.roles.cache.find(r => r.name === 'Member'))
+    client.settings.ensure(member.guild.id, defaultSettings);
+    let joinRole = client.settings.get(member.guild.id, "joinRole");
+    member.roles
+        .add(member.guild.roles.cache.find(r => r.name === joinRole))
+        .catch(e => console.error(e))
+
 });
 
 client.on("guildCreate", guild => {    
@@ -45,26 +67,12 @@ client.on("guildCreate", guild => {
 
 
 client.on('message', message => {
-    if (message.channel.type !== 'dm') {
-        if (!config[message.guild.id]) {
-            config[message.guild.id] = {}
-            config[message.guild.id]['prefix'] = '!'
-            prefix = '!'
-            writeFileSync('config.json', JSON.stringify(config), function (err) {
-                if (err) return console.log(err);
-                message.channel.send('Failed to write prefix to JSON file')
-            });
-        }
-        else {
-            prefix = config[message.guild.id]['prefix']
-        }
-        module.exports.prefix = prefix
-    }
-
+    if (message.channel.type === 'dm') return
+    const prefix = client.settings.get(message.guild.id, "prefix")
     if (!message.content.startsWith(prefix) || message.author.bot) return;
 
-    const args = message.content.slice(prefix.length).trim().split(/ +/);
-    const commandName = args.shift().toLowerCase();
+    const args = message.content.split(/\s+/g);
+    const commandName = args.shift().slice(prefix.length).toLowerCase();
     const command = client.commands.get(commandName) ||
         client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
