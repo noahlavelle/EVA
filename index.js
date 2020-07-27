@@ -1,24 +1,26 @@
-const fs = require('fs');
+const { readdirSync, readdir } = require("fs");
 const Discord = require('discord.js');
 const config = require('./config.json');
-const help = require('./commands/help')
-require('./commands/game-status.js').games = [1];
-require('./commands/game-status.js').players = [1];
+const help = require('./commands/utility/help');
+const { sep } = require("path");
+require('./commands/games/game-status.js').games = [1];
+require('./commands/games/game-status.js').players = [1];
 const token = config.token
-const { subcommands } = require('./commands/announce');
 let prefix = '!';
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-
-for (const file of commandFiles) {
-    const command = require(`./commands/${file}`);
-    if (typeof command.name !== 'undefined') {
-        client.commands.set(command.name, command);
+// const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+readdirSync('./commands/').forEach(dirs => {
+    const commandFiles = readdirSync(`./commands/${sep}/${dirs}${sep}`)
+    for (const file of commandFiles) {
+        const pull = require(`./commands/${dirs}/${file}`);
+        if (typeof pull.name !== 'undefined') {
+            client.commands.set(pull.name, pull);
+        }
     }
-}
+})
 
 const cooldowns = new Discord.Collection();
 
@@ -53,11 +55,18 @@ client.on('message', message => {
 
     const args = message.content.slice(prefix.length).trim().split(/ +/);
     const commandName = args.shift().toLowerCase();
-
     const command = client.commands.get(commandName) ||
         client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
     if (!command) return;
+
+    if (command.argsDefaults) {
+        for (defaultValue in command.argsDefaults) {
+            if (!args[defaultValue]) {
+                args[defaultValue] = command.argsDefaults[defaultValue]
+            }
+        }
+    }
 
     if (command.guildOnly && message.channel.type !== 'text') {
         return message.reply(errorEmbed('I can\'t execute that command inside DMs!', '#EB403B'));

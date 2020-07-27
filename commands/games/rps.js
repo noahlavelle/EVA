@@ -1,5 +1,5 @@
 const discord = require('discord.js')
-let prefix = require('../index.js').prefix;
+let prefix = require('../../index.js').prefix;
 
 module.exports = {
 	name: 'rps',
@@ -17,7 +17,7 @@ module.exports = {
                     let game_status = require('./game-status.js')
                         switch (args[0]) {
                             case 'accept':
-                                prefix = require('../index.js').prefix;
+                                prefix = require('../../index.js').prefix;
                                 require('./game-status.js').set_player_two('accepted', true, message.author.id)
                                 const game_starting_embed = new discord.MessageEmbed()
                                 .setColor('#00ff00')

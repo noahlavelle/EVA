@@ -1,15 +1,15 @@
-let u = require('../utils')
+let u = require('../../utils')
 
 const fetch = require('node-fetch');
 
 module.exports = {
-	name: 'fortune',
-    description: 'Gives you a fortune cookie message',
-    aliases: ['fortunecookie'],
+	name: 'fact',
+    description: 'Gives you a fun, random fact.',
+    aliases: ['funfact'],
 	execute(message, args, client) {
-        fetch('http://yerkee.com/api/fortune')
+        fetch('https://uselessfacts.jsph.pl/random.json?language=en')
             .then(res => res.json())
-            .then(json => message.channel.send(u.titleEmbed(json.fortune, '#3498db', 'Your Fortune:')))
+            .then(json => message.channel.send(u.titleEmbed(json.text, '#3498db', 'Fun Fact:')))
             .catch(err => {
                 message.channel.send('We could not find you a fortune :confused:');
                 return console.error(err);

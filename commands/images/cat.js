@@ -1,6 +1,6 @@
-let u = require('../utils')
+let u = require('../../utils')
 
-const { tenorAPI } = require('../config.json')
+const { tenorAPI } = require('../../config.json')
 const fetch = require('node-fetch');
 
 

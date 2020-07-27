@@ -1,5 +1,5 @@
 const discord = require('discord.js');
-let prefix = require('../index.js').prefix;
+let prefix = require('../../index.js').prefix;
 
 module.exports = {
 	name: 'game',
@@ -18,7 +18,7 @@ module.exports = {
                             case 'rps':
                                 game_status.add(message.author.id, args[0].replace(/[^0-9]/g , ''), 'rps')
                                 game_status = require('./game-status.js')
-                                prefix = require('../index.js').prefix;
+                                prefix = require('../../index.js').prefix;
                                 rps_embed = new discord.MessageEmbed()
                                 .setColor('#00ff00')
                                 .setTitle('You have been challenged to a game of Rock, Paper, Scissors by ' + message.author.username)
@@ -55,7 +55,7 @@ module.exports = {
                             case 'ttt':
                                 game_status.add(message.author.id, args[0].replace(/[^0-9]/g , ''), 'ttt')
                                 game_status = require('./game-status.js')
-                                prefix = require('../index.js').prefix;
+                                prefix = require('../../index.js').prefix;
                                 ttt_embed = new discord.MessageEmbed()
                                 .setColor('#00ff00')
                                 .setTitle('You have been challenged to a game of Tic, Tac, Toe by ' + message.author.username)

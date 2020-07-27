@@ -346,7 +346,7 @@ function players_go(message, client) {
 }
 
 function ttt_embedd(client, message) {
-    const prefix = require('../index').prefix
+    const prefix = require('../../index').prefix
     const game_status = require('./game-status.js')
     const ttt_embed = new discord.MessageEmbed()
         .setColor('#00ff00')
