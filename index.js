@@ -59,14 +59,6 @@ client.on('message', message => {
 
     if (!command) return;
 
-    if (command.argsDefaults) {
-        for (defaultValue in command.argsDefaults) {
-            if (!args[defaultValue]) {
-                args[defaultValue] = command.argsDefaults[defaultValue]
-            }
-        }
-    }
-
     if (command.userPermissions) {
         for (permission in command.userPermissions) {
             if(!message.member.hasPermission(command.userPermissions[permission])) return message.reply('You do not have permissions to run that command.')

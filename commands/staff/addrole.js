@@ -6,13 +6,10 @@ module.exports = {
     args: true,
     usage: '<role name> <role colour>',
     aliases: ['addrank'],
-    argsDefaults: [
-        [],
-        ['#99AAB5']
-    ],
     userPermissions: ['MANAGE_ROLES'],
     guildOnly: true,
 	execute(message, args, client) {
+        if (!args[1]) args[1] = '#99AAB5'
         message.guild.roles
             .create({
                 data: {

@@ -9,7 +9,7 @@ module.exports = {
 	execute(message, args, client) {
         fetch('https://uselessfacts.jsph.pl/random.json?language=en')
             .then(res => res.json())
-            .then(json => message.channel.send(u.titleEmbed(json.text, '#3498db', 'Fun Fact:')))
+            .then(json => message.reply(json.text))
             .catch(err => {
                 message.channel.send('We could not find you a fortune :confused:');
                 return console.error(err);

@@ -7,14 +7,11 @@ module.exports = {
 	aliases: ['info'],
     guildOnly: true,
 	execute(message, args, client) {
-		var onlineCount = message.guild.members.cache.filter(m => m.presence.status === 'online').size
-		const embed = new Discord.MessageEmbed()
+		message.channel.send(new Discord.MessageEmbed()
 			.setTitle(`Server info for: ${message.guild.name}`)
 			.setThumbnail(message.guild.iconURL())
 			.addFields(
-				{ name: `Total Members: ${message.guild.memberCount}`, value: `Total Online Members: ${onlineCount}`}
-			)
-			
-		message.channel.send(embed)
+				{ name: `Total Members: ${message.guild.memberCount}`, value: `Total Online Members: ${message.guild.members.cache.filter(m => m.presence.status === 'online').size}`}
+			))
 	},
 };

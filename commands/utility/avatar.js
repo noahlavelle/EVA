@@ -6,12 +6,14 @@ module.exports = {
     aliases: ['icon', 'pfp'],
     guildOnly: true,
 	execute(message, args, client) {
-		if (!args[0]) {
-			message.channel.send(u.imageEmbed(`Your Avatar`, '#3498db', message.author.displayAvatarURL({ dynamic: true })))
-		}
+		if (!args.length) sendAvatar('Your Avatar', message.author);
 		message.mentions.users.map(user => {
-			return message.channel.send(u.imageEmbed(`${user.username}'s Avatar`, '#3498db', user.displayAvatarURL({ dynamic: true })))
+			sendAvatar(`${user.username}'s Avatar`, user);
 		});
+
+		function sendAvatar (title, target) {
+			message.channel.send(u.imageEmbed(title, '#3498db', target.displayAvatarURL({ dynamic: true })));
+		}
 
 	},
 };
