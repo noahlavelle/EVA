@@ -4,7 +4,7 @@ let player;
 
 module.exports = {
 	name: 'role',
-    description: 'Gives a user a role. Can only give roles lower than it.',
+    description: 'Gives or removes a user a role. Can only give and remove roles lower than it.',
     args: true,
     usage: '<role> <user>',
     aliases: ['rank'],
@@ -27,8 +27,13 @@ module.exports = {
 
         function giveRole() {
             let playerGot = message.guild.members.cache.get(player)
-            playerGot.roles.add(message.member.guild.roles.cache.find(r => r.name === args[0]));
-            message.channel.send(u.embed(`Added user <@${player}> to role ${args[0]}`, '#00D166'))
+            let role = message.member.guild.roles.cache.find(r => r.name === args[0])
+            if (playerGot.roles.cache.has(role.id)) {
+                playerGot.roles.remove(role);
+                return message.channel.send(`Removed role ${role.name} from user <@${player}>`)
+            }
+            playerGot.roles.add(role);
+            message.channel.send(`Added role ${role.name} to role <@${player}>`)
         }
 	},
 };
