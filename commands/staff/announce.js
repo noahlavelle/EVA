@@ -1,5 +1,3 @@
-let u = require('../../utils')
-
 const Discord = require('discord.js')
 
 module.exports = {

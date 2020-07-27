@@ -1,6 +1,4 @@
-let u = require('../../utils')
-
-const fs = require('fs')
+const { writeFileSync } = require('fs')
 const config = require('../../config.json')
 
 module.exports = {
@@ -15,19 +13,19 @@ module.exports = {
 	execute(message, args, client) {
         switch (args[0]) {
             case 'prefix':
-                message.channel.send(u.embed(`Changed prefix to ${args[1]}`, '#00D166'));
+                message.channel.send(`Changed prefix to ${args[1]}`);
                 config[message.guild.id]['prefix'] = args[1];
                 writeToJSON();
                 break;
             default:
-                message.channel.send(u.embed('That value is not changable', '#EB403B'))
+                message.channel.send('That value is not changable')
                 break;
         }
 
         function writeToJSON() {
-            fs.writeFileSync('config.json', JSON.stringify(config), function (err) {
+            writeFileSync('config.json', JSON.stringify(config), function (err) {
                 if (err) return console.log(err);
-                message.channel.send(u.embed('Failed to write prefix to JSON file', '#EB403B'));
+                message.channel.send('Failed to write prefix to JSON file');
               });
         }
 	},

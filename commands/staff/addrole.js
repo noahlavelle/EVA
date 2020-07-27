@@ -1,5 +1,3 @@
-let u = require('../../utils')
-
 module.exports = {
 	name: 'addrole',
     description: 'Adds a role to the server',

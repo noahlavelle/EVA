@@ -1,5 +1,3 @@
-let u = require('../../utils')
-
 const fetch = require('node-fetch');
 
 module.exports = {
@@ -9,8 +7,8 @@ module.exports = {
         fetch('https://sv443.net/jokeapi/v2/joke/Any?blacklistFlags=nsfw,religious,racist,sexist')
             .then(res => res.json())
             .then(json => {
-                if (json.setup) message.channel.send(u.titleEmbed(`${json.setup}\n${json.delivery}`, '#3498db', 'Random Joke:')); else {
-                    message.channel.send(u.titleEmbed(`${json.joke}`, '#3498db', 'Random Joke:'));
+                if (json.setup) message.channel.send(`${json.setup}\n${json.delivery}`); else {
+                    message.channel.send(`${json.joke}`);
                 }
             })
             .catch(err => {

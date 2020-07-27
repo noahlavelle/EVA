@@ -1,6 +1,3 @@
-let u = require('../../utils')
-
-const Discord = require('discord.js')
 const idRegex = /[^0-9]/g;
 
 module.exports = {

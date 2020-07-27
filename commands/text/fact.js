@@ -1,5 +1,3 @@
-let u = require('../../utils')
-
 const fetch = require('node-fetch');
 
 module.exports = {
