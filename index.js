@@ -68,6 +68,12 @@ client.on('message', message => {
         }
     }
 
+    if (command.userPermissions) {
+        for (permission in command.userPermissions) {
+            if(!message.member.hasPermission(command.userPermissions[permission])) return message.reply('You do not have permissions to run that command.')
+        }
+    }
+
     if (command.guildOnly && message.channel.type !== 'text') {
         return message.reply(errorEmbed('I can\'t execute that command inside DMs!', '#EB403B'));
     }

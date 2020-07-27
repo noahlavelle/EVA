@@ -8,11 +8,11 @@ module.exports = {
     aliases: ['addrank'],
     argsDefaults: [
         [],
-        ['#99aab5']
+        ['#99AAB5']
     ],
+    userPermissions: ['MANAGE_ROLES'],
     guildOnly: true,
 	execute(message, args, client) {
-        if (!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(u.embed('You do not have permission to use this command.', '#EB403B'))
         message.guild.roles
             .create({
                 data: {

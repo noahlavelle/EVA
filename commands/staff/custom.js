@@ -9,6 +9,7 @@ module.exports = {
     args: true,
     usage: '<what-is-changed> <value>',
     subcommands: `custom prefix <value> - Changes prefix\n custom staffroles <role, role, role etc.> - Sets roles that cannot be set by bots without user having admin\n custom default-role <role> - Changes the role given to new users`,
+    userPermissions: ['ADMINISTRATOR'],
     aliases: ['change', 'vars'],
     guildOnly: true,
 	execute(message, args, client) {

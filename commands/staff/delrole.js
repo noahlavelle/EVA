@@ -8,6 +8,7 @@ module.exports = {
     args: true,
     usage: '<role name>',
     aliases: ['delrank'],
+    userPermissions: ['MANAGE_ROLES'],
     guildOnly: true,
 	execute(message, args, client) {
         if (!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(u.embed('You do not have permission to use this command.', '#EB403B'));

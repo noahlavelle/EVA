@@ -10,11 +10,11 @@ module.exports = {
     subcommands: 'announce <channel> - Does not mention anyone\nannounce @everyone <channel> - Mentions everyone\nannounce @here <channel> - Mentions everyone in a channel\nannounce role <@role> <channel> - Mentions everyone of a role\nannounce @user <channel> - Mentions a specific user',
     examples: 'announce #general Hello World\nannounce @everyone #general Hello World\nannounce @here #general Hello World\nannounce role @Member #general Hello World\nannounce @Alex #general Hello Alex',
     aliases: ['embed'],
+    userPermissions: ['MANAGE_MESSAGES'],
     guildOnly: true,
 	execute(message, args, client) {
         let tag;
         let iStart;
-        if (!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(u.embed('You do not have permission to use this command.', '#EB403B'))
         if (args[0].includes('@')) {
             iStart = 2;
             tag = args[0];

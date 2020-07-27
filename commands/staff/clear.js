@@ -9,10 +9,10 @@ module.exports = {
     cooldown: 5,
     aliases: ['delete', 'wipe'],
     usage: '<amount> <channel>',
+    userPermissions: ['MANAGE_CHANNELS', 'MANAGE_MESSAGES'],
     args: true,
     guildOnly: true,
 	execute(message, args, client) {
-        if (!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(u.embed('You do not have permission to use this command.', '#EB403B'))
         if(args.length == 1) args.push(message.channel.id)
         client.channels.cache.get(args[1].replace(idRegex, ''))
             .bulkDelete(parseInt(args[0]))
