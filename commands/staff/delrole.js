@@ -11,7 +11,6 @@ module.exports = {
     userPermissions: ['MANAGE_ROLES'],
     guildOnly: true,
 	execute(message, args, client) {
-        if (!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(u.embed('You do not have permission to use this command.', '#EB403B'));
         let role = message.guild.roles.cache.find(r => r.name === args[0]);
         if (!role) return message.reply(`${args[0]} is not a valid role`);
         role
