@@ -1,4 +1,4 @@
-const { readdirSync, readdir } = require("fs");
+const { readdirSync, writeFileSync } = require("fs");
 const Discord = require('discord.js');
 const config = require('./config.json');
 const help = require('./commands/utility/help');
@@ -11,7 +11,6 @@ let prefix = '!';
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 
-// const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 readdirSync('./commands/').forEach(dirs => {
     const commandFiles = readdirSync(`./commands/${sep}/${dirs}${sep}`)
     for (const file of commandFiles) {
@@ -40,7 +39,7 @@ client.on('message', message => {
             config[message.guild.id] = {}
             config[message.guild.id]['prefix'] = '!'
             prefix = '!'
-            fs.writeFileSync('config.json', JSON.stringify(config), function (err) {
+            writeFileSync('config.json', JSON.stringify(config), function (err) {
                 if (err) return console.log(err);
                 message.channel.send('Failed to write prefix to JSON file')
             });
