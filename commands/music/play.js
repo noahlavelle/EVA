@@ -8,7 +8,7 @@ const youtube = new Youtube(youtubeAPI);
 module.exports = {
 	name: 'play',
 	description: 'Plays a song or playlist.',
-	cooldown: 5,
+	cooldown: 2,
 	guildOnly: true,
 	args: true,
 	usage: '<song or playlist url / song name>',
