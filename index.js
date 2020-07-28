@@ -1,5 +1,6 @@
 const { readdirSync, writeFileSync } = require("fs");
 const Discord = require('discord.js');
+const { Structures } = require('discord.js');
 const config = require('./config.json');
 const help = require('./commands/utility/help');
 const Enmap = require('enmap');
@@ -7,6 +8,21 @@ const { sep } = require("path");
 require('./commands/games/game-status.js').games = [1];
 require('./commands/games/game-status.js').players = [1];
 const token = config.token
+
+Structures.extend('Guild', Guild => {
+    class MusicGuild extends Guild {
+      constructor(client, data) {
+        super(client, data);
+        this.musicData = {
+          queue: [],
+          isPlaying: false,
+          volume: 1,
+          songDispatcher: null
+        };
+      }
+    }
+    return MusicGuild;
+  });
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
