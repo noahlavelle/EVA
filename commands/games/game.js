@@ -1,4 +1,5 @@
 const discord = require('discord.js');
+const prefix = require('../../index').defaultSettings.prefix;
 
 module.exports = {
 	name: 'game',
@@ -8,7 +9,6 @@ module.exports = {
     aliases: ['play', 'games', 'challenge'],
     guildOnly: true,
 	execute(message, args, client) {
-        const prefix = client.settings.get(message.guild.id, "prefix")
         let game_status = require('./game-status.js')
         if (message.guild.members.cache.has(args[0].replace(/[^0-9]/g, ''))) {
             if (args[0].replace(/[^0-9]/g, '') != message.author.id) {

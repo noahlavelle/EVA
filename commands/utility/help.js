@@ -17,7 +17,8 @@ module.exports = {
 
         if (!member) {
             helpChannel = message.channel
-            member = message.member
+            member = message.author
+            console.log(member)
             channelType= message.channel.type
         } else {
             channelType = 'dm'

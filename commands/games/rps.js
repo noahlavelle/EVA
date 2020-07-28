@@ -1,4 +1,5 @@
 const discord = require('discord.js')
+const prefix = require('../../index').defaultSettings.prefix;
 
 module.exports = {
 	name: 'rps',
@@ -9,7 +10,6 @@ module.exports = {
     guildOnly: false,
     cooldown: 0,
 	execute(message, args, client) {
-        console.log('hi')
         switch (require('./game-status.js').games[message.author.id].game_stage) {
             case 0:
                 switch (message.author.id) {
@@ -17,7 +17,6 @@ module.exports = {
                     let game_status = require('./game-status.js')
                         switch (args[0]) {
                             case 'accept':
-                                const prefix = client.settings.get(message.guild.id, "prefix")
                                 require('./game-status.js').set_player_two('accepted', true, message.author.id)
                                 const game_starting_embed = new discord.MessageEmbed()
                                 .setColor('#00ff00')

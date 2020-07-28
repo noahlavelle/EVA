@@ -1,4 +1,5 @@
 const discord = require('discord.js')
+const prefix = require('../../index').defaultSettings.prefix;
 
 module.exports = {
 	name: 'ttt',
@@ -346,7 +347,6 @@ function players_go(message, client) {
 }
 
 function ttt_embedd(client, message) {
-    const prefix = client.settings.get(message.guild.id, "prefix")
     const game_status = require('./game-status.js')
     const ttt_embed = new discord.MessageEmbed()
         .setColor('#00ff00')

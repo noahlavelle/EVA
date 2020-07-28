@@ -40,6 +40,8 @@ const defaultSettings = {
     jokeFilters: "nsfw,religious,political,racist,sexist",
 }
 
+module.exports.defaultSettings = defaultSettings
+
 readdirSync('./commands/').forEach(dirs => {
     const commandFiles = readdirSync(`./commands/${sep}/${dirs}${sep}`)
     for (const file of commandFiles) {
@@ -83,8 +85,8 @@ client.on("guildCreate", guild => {
 
 
 client.on('message', message => {
-    if (message.channel.type === 'dm') return
-    const prefix = client.settings.get(message.guild.id, "prefix")
+    let prefix;
+    if (message.channel.type === 'dm') prefix = defaultSettings.prefix; else prefix = client.settings.get(message.guild.id, "prefix")
     if (!message.content.startsWith(prefix) || message.author.bot) return;
 
     const args = message.content.split(/\s+/g);
@@ -158,6 +160,17 @@ function errorEmbed(errorMessage) {
         .setColor('#EB403B ')
         .setDescription(errorMessage)
     return embedError
+}
+
+function handleDMs() {
+    let prefix = client.defaultSettings.prefix;
+    if (!message.content.startsWith(prefix)) return;
+
+    const args = message.content.split(/\s+/g);
+    const commandName = args.shift().slice(prefix.length).toLowerCase();
+    const command = client.commands.get(commandName) ||
+        client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+
 }
 
 client.login(token);
