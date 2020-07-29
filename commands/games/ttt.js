@@ -331,9 +331,29 @@ function error_embed_taken(message) {
 }
 
 function ttt_grid(message) {
-    const game_status = require('./game-status.js')
-    const grid = game_status.games[message.author.id].ttt_grid
-    return ' ' + grid[0] + ' ' + grid[1] + ' ' + grid[2] + ' \n' + grid[3] + ' ' + grid[4] + ' ' + grid[5] + ' \n' + grid[6] + ' ' + grid[7] + ' ' + grid[8] + ' '
+    (async () => {
+        const game_status = require('./game-status.js')
+        const grid = game_status.games[message.author.id].ttt_grid
+        let img = []
+        step = -1
+        const Jimp = require('jimp')
+        while (step < grid.length - 1) {
+            step++
+            if (grid[step] == 'X') {img[step] = await Jimp.read('../pictures/X/' + parseInt(step + 1) + '.png')}
+            if (grid[step] == 'O') {img[step] = await Jimp.read('../pictures/O/' + parseInt(step + 1) + '.png')}
+            if (grid[step] == ' — ') {img[step] = await Jimp.read('../pictures/null.png')}
+        }
+        try {
+            const background = await Jimp.read('pictures/background.png')
+            for (i in img) {
+                background.composite(img[i], 0, 0)
+            }
+            background.write('output.png')
+        }
+        catch(err){
+            console.log(err)
+        }
+    })()
 }
 
 function players_go(message, client) {
@@ -347,15 +367,21 @@ function players_go(message, client) {
 }
 
 function ttt_embedd(client, message) {
-    const game_status = require('./game-status.js')
-    const ttt_embed = new discord.MessageEmbed()
+    ttt_grid(message)
+    setTimeout(() => {
+        const game_status = require('./game-status.js')
+        const ttt_embed = new discord.MessageEmbed()
         .setColor('#00ff00')
         .setTitle('Tic, Tac, Toe game: (' + client.users.cache.get(game_status.games[message.author.id].player_one).username + ' vs ' + client.users.cache.get(game_status.games[message.author.id].player_two).username + ') has started.')
-        .setDescription('Please enter ' + prefix + 'ttt 1 - 9, (1 = top left, 9 = bottom right\n' + ttt_grid(message) + "\nCurrent player's go: " + players_go(message, client))
+        .setDescription('Please enter ' + prefix + 'ttt 1 - 9, (1 = top left, 9 = bottom right\n' + "Current player's go: " + players_go(message, client))
+        .attachFiles(['./output.png'])
+        .setImage('attachment://output.png')
         .setTimestamp()
         .setThumbnail('https://images.squarespace-cdn.com/content/v1/54f74f23e4b0952b4e0011c0/1580269334204-W1N8ATYATHA6XP02YVSY/ke17ZwdGBToddI8pDm48kGtxPgPaOBG5VTwzK0O3JPx7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z5QHyNOqBUUEtDDsRWrJLTmYfwwyaF2qdqpAEW-vwkS-q9yrvcVcBFNcMZ7RZJD-G-L7L3_iLqMJNwF1D5UY19g/tictac.png?format=1500w')
         client.users.cache.get(game_status.games[message.author.id].player_one).send(ttt_embed)
         client.users.cache.get(game_status.games[message.author.id].player_two).send(ttt_embed)
+    }, 1000);
+    
 }
 
 function isOdd(number) {
@@ -390,7 +416,7 @@ function check_win(message, client) {
             return;
         }
         if (game_status.games[message.author.id].game_stage == 10 && step_one == 7) {
-            const draw_embed = new discord.MessageEmbed()
+            const win_embed = new discord.MessageEmbed()
             .setColor('#00ff00')
             .setTitle('You drew!')
             .setTimestamp()
